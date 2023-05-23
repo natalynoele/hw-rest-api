@@ -42,29 +42,29 @@ async function addContact(data) {
 
 /**
  * Update contact by id
- * @param {string} contactId 
+ * @param {string} id 
  * @param {object} data 
  * @returns {object}
  */
-const updateContactById = async (contactId, data) => { 
+const updateContactById = async (id, data) => { 
     const contacts = await listContacts();
-    const index = contacts.findIndex((contact) => contact.id === contactId);
+    const index = contacts.findIndex((contact) => contact.id === id);
     if (index === -1) {
       return null;
     }
-    contacts[index] = { contactId, ...data };
+    contacts[index] = { id, ...data };
     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
     return contacts[index];  
 };
 
 /**
  * Delete contact by ID
- * @param {string} contactId
+ * @param {string} id
  * @returns {object || null} the removed contact
  */
-async function removeContactById(contactId) {
+async function removeContactById(id) {
   const contacts = await listContacts();
-  const index = contacts.findIndex((contact) => contact.id === contactId);
+  const index = contacts.findIndex((contact) => contact.id === id);
   if (index === -1) {
     return null;
   }
