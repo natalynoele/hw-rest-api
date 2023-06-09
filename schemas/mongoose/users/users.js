@@ -1,7 +1,5 @@
 const { Schema } = require("mongoose");
 
-const Joi = require("joi");
-
 const userSchema = new Schema(
   {
     password: {
@@ -23,23 +21,5 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const userRegisterSchema = Joi.object({
-  password: Joi.string().required(),
-  email: Joi.string().required(),
-  subscription: Joi.string(),
-});
 
-const userLoginSchema = Joi.object({
-  password: Joi.string().required(),
-  email: Joi.string().required(),
-});
-
-const userJoiSchemas = {
-  userRegisterSchema,
-  userLoginSchema,
-};
-
-module.exports = {
-  userSchema,
-  userJoiSchemas,
-};
+module.exports = userSchema
