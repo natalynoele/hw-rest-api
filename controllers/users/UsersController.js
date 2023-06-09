@@ -6,24 +6,22 @@ const { User } = require("../../models");
 const { HttpError } = require("../../helpers");
 
 class UsersController {
-  register = asyncHandler(async (req, res) => {
+  register = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (user) {
-      HttpError(409);
+      throw HttpError(409);
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ ...req.body, password: hashPassword });
-    return res
-      .status(201)
-      .json({
-        code: 201,
-        message: "success",
-        data: { email: newUser.email, subscription: newUser.subscription },
-      });
+    return res.status(201).json({
+      code: 201,
+      message: "success",
+      data: { email: newUser.email, subscription: newUser.subscription },
+    });
   });
 
-  login = asyncHandler(async (req, res) => {
+  login = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
@@ -38,12 +36,18 @@ class UsersController {
       id: user._id,
     };
 
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign(payload, process.env.SECRET_KEY, {
+      expiresIn: "2h",
+    });
 
     res.json({
+      user: {
+        email: user.email,
+        subscription: user.subscription,
+      },
       token,
     });
   });
 }
 
-module.exports = new UsersController()
+module.exports = new UsersController();

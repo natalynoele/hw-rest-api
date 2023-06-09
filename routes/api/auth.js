@@ -11,14 +11,14 @@ const {userJoiSchemas} = require("../../schemas")
 const authRouter = express.Router();
 
 authRouter.post(
-  "/registration",
+  "/register",
   validateBody(userJoiSchemas.userRegisterSchema),
   UsersController.register
 );
 
-// authRouter.post(
-//   "/login",
-//   validateBody(userJoiSchemas.userLoginSchema),
-//   usersCtrl.register
-// );
+authRouter.post(
+  "/login",
+  validateBody(userJoiSchemas.userLoginSchema),
+  UsersController.login
+);
 module.exports = authRouter
