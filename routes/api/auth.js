@@ -1,8 +1,7 @@
 const express = require("express")
 
-const { isValidId, validateBody } = require("../../middlewares");
+const { validateBody } = require("../../middlewares");
 
-// const { usersCtrl } = require("../../controllers")
 const { UsersController} = require("../../controllers");
 
 const {userRegisterSchema, userLoginSchema} = require("../../schemas/joi")
