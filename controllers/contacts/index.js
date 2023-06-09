@@ -7,7 +7,6 @@ const updateById = require("./updateById")
 const removeById = require("./removeById")
 const updateStatusContact = require("./updateStatusContact")
 
-
 module.exports = {
   getAll: ctrlWrapper(getAll),
   getById: ctrlWrapper(getById),
@@ -15,6 +14,7 @@ module.exports = {
   updateStatusContact: ctrlWrapper(updateStatusContact),
   add: ctrlWrapper(add),
   removeById: ctrlWrapper(removeById),
+
 };
 
 

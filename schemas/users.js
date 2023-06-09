@@ -2,7 +2,7 @@ const { Schema } = require("mongoose");
 
 const Joi = require("joi");
 
-const userSchema = {
+const userSchema = new Schema({
   password: {
     type: String,
     required: [true, "Set password for user"],
@@ -18,7 +18,7 @@ const userSchema = {
     default: "starter",
   },
   token: String,
-};
+});
 
 const userRegisterSchema = Joi.object({
   password: Joi.string().required(),
