@@ -5,6 +5,7 @@ const { validateBody, authenticate } = require("../../middlewares");
 const { AuthController} = require("../../controllers");
 
 const { userSchemas } = require("../../schemas/joi");
+const { AuthService } = require("../../services");
 
 
 const authRouter = express.Router();
@@ -29,5 +30,7 @@ authRouter.patch(
   validateBody(userSchemas.updateSubSchema),
   AuthController.update
 );
+
+authRouter.get("/current", authenticate, AuthController.getCurrent)
 
 module.exports = authRouter

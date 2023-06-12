@@ -103,6 +103,18 @@ class AuthService {
 
   }
 
+  async getCurrent(req) {   
+
+    if (!req.user) {
+      throw(HttpError(401))
+    }
+ const { email, subscription } = req.user;
+    return ({
+      email,
+      subscription
+    })
+  }
+
 }
 
 module.exports = new AuthService();
