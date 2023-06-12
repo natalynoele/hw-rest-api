@@ -1,5 +1,7 @@
 const { Schema } = require("mongoose");
 
+const {subscriptionOptions}= require("../../../constants/users")
+
 const userSchema = new Schema(
   {
     password: {
@@ -13,7 +15,7 @@ const userSchema = new Schema(
     },
     subscription: {
       type: String,
-      enum: ["starter", "pro", "business"],
+      enum: subscriptionOptions,
       default: "starter",
     },
     token: String,

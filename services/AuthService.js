@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const { User } = require("../models");
 const { HttpError } = require("../helpers");
+const {subscriptionOptions} =  require("../constants/users")
 
 class AuthService {
   async registerNewUser (req, res) {
@@ -73,6 +74,33 @@ class AuthService {
       message: "Logout success",
     }
     
+  }
+
+  async updateSubscription(req) {
+    const { _id } = req.user;
+    const { subscription } = req.body
+
+    const id = _id;
+    
+    if (!subscription) {
+      throw HttpError(400, "Please provide the subscription field");
+    }
+
+    if (!subscriptionOptions.includes(subscription)) {
+      throw HttpError(
+        400,
+        "Please choose the subscription from the offered options"
+      );
+    }
+
+    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
+
+    if (!user) {
+      throw HttpError(404, `The user with id: ${id} is not found`);
+    }
+
+    return user;
+
   }
 
 }

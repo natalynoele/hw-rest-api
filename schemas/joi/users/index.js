@@ -1,7 +1,9 @@
-const userRegisterSchema = require("./userRegisterSchema");
-const userLoginSchema = require("./userLoginSchema");
+const registerSchema = require("./registerSchema");
+const loginSchema = require("./loginSchema");
+const updateSubSchema = require("./updateSubSchema");
 
 module.exports = {
-  userRegisterSchema,
-  userLoginSchema,
+  registerSchema,
+  loginSchema,
+  updateSubSchema
 };

@@ -29,6 +29,12 @@ class AuthController {
 
     res.status(200).json(data)
   })
+
+  update = asyncHandler(async (req, res, next) => {
+    const data = await AuthService.updateSubscription(req);
+
+    res.status(200).json(data)
+  })
 }
 
 module.exports = new AuthController();
