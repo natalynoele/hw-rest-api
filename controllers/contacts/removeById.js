@@ -1,7 +1,6 @@
 const { Contact } = require("../../models");
 const { HttpError } = require("../../helpers");
 
-
 const removeById = async (req, res) => {
   const { id } = req.params;
 
@@ -12,5 +11,4 @@ const removeById = async (req, res) => {
   return res.status(200).json({ message: "contact was deleted" });
 };
 
-
-module.exports = removeById
+module.exports = removeById;

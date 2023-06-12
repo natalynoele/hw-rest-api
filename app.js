@@ -3,7 +3,8 @@ const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
-const errorHandler = require("./middlewares/errorHandler")
+// const errorHandler = require("./middlewares/errorHandler")
+const {HttpError } =require("./helpers")
 
 const { contactsRouter, authRouter } = require("./routes/api");
 
@@ -25,10 +26,11 @@ app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
-// app.use(errorHandler);
+
 app.use((err, req, res, next) => {
-  const { status = 500, message = "Server error" } = err;
-  res.status(status).json({ message: message });
+  const statusCode = res.statusCode || 500;
+  res.status(statusCode);
+  res.json({ code: statusCode, stack: err.stack, message: err.message });
 });
 
 module.exports = app;
