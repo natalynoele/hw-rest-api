@@ -1,10 +1,11 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-require("dotenv").config();
+const path = require("path");
 
-// const errorHandler = require("./middlewares/errorHandler")
-const {HttpError } =require("./helpers")
+const configPath = path.join(__dirname, "config", ".env");
+
+require("dotenv").config({ path: configPath });
 
 const { contactsRouter, authRouter } = require("./routes/api");
 
@@ -25,7 +26,6 @@ app.use("/api/users", authRouter);
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
-
 
 app.use((err, req, res, next) => {
   const statusCode = res.statusCode || 500;
