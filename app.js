@@ -1,27 +1,36 @@
-const express = require('express')
-const logger = require('morgan')
-const cors = require('cors')
-require("dotenv").config()
+const express = require("express");
+const logger = require("morgan");
+const cors = require("cors");
+const path = require("path");
 
-const contactsRouter = require('./routes/api/contacts')
+const configPath = path.join(__dirname, "config", ".env");
 
-const app = express()
+require("dotenv").config({ path: configPath });
 
-const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
+const { contactsRouter, authRouter } = require("./routes/api");
 
-app.use(logger(formatsLogger))
-app.use(cors())
-app.use(express.json())
+const app = express();
 
-app.use('/api/contacts', contactsRouter)
+app.use(express.urlencoded({ extended: false }));
+
+const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+
+app.use(logger(formatsLogger));
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/contacts", contactsRouter);
+
+app.use("/api/users", authRouter);
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
-})
+  res.status(404).json({ message: "Not found" });
+});
 
 app.use((err, req, res, next) => {
-  const { status = 500, message = "Server error" } = err;
-  res.status(status).json({ message: message})
-})
+  const statusCode = res.statusCode || 500;
+  res.status(statusCode);
+  res.json({ code: statusCode, stack: err.stack, message: err.message });
+});
 
-module.exports = app
+module.exports = app;
