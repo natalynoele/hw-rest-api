@@ -1,9 +1,11 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs/promises");
+const path = require("path")
 
 const { User } = require("../models");
 const { HttpError } = require("../helpers");
-const {subscriptionOptions} =  require("../constants/users")
+const {subscriptionOptions, AVATARS_DIR, TEMP_DIR} =  require("../constants/users")
 
 class AuthService {
   async registerNewUser (req, res) {
@@ -113,6 +115,15 @@ class AuthService {
       email,
       subscription
     })
+  }
+
+  async uploadAvatar(req) {
+    const { _id } = req.user;
+    console.log(req.file)
+    const { path: tempUpload, originalname } = req.file
+    const fileName = `${_id}_${originalname}`
+    const resultUpload = path.join(AVATARS_DIR, fileName )
+    await fs.rename()
   }
 
 }
