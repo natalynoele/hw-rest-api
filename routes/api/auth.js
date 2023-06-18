@@ -1,12 +1,11 @@
-const express = require("express")
+const express = require("express");
 
-const { validateBody, authenticate } = require("../../middlewares");
+const { validateBody, authenticate, upload } = require("../../middlewares");
 
-const { AuthController} = require("../../controllers");
+const { AuthController } = require("../../controllers");
 
 const { userSchemas } = require("../../schemas/joi");
-const { AuthService } = require("../../services");
-
+// const { AuthService } = require("../../services");
 
 const authRouter = express.Router();
 
@@ -31,6 +30,13 @@ authRouter.patch(
   AuthController.update
 );
 
-authRouter.get("/current", authenticate, AuthController.getCurrent)
+authRouter.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  AuthController.updateAvatar
+);
 
-module.exports = authRouter
+authRouter.get("/current", authenticate, AuthController.getCurrent);
+
+module.exports = authRouter;
