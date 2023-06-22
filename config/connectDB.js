@@ -1,9 +1,8 @@
 const { connect } = require("mongoose");
-const { DB_HOST } = process.env;
 
-const connectDB = async () => {
+const connectDB = async (host) => {
   try {
-    const db = await connect(DB_HOST);
+    const db = await connect(host);
     console.log(
       `Database is connected. Name:${db.connection.name}. Port:${db.connection.port}. Host:${db.connection.host}`
         .green.italic.bold
@@ -13,4 +12,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB
+module.exports = connectDB;

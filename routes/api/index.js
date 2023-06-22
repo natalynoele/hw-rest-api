@@ -1,4 +1,4 @@
-const authRouter = require("./auth");
+const authRouter = require("./authRouter");
 
 const contactsRouter = require("./contacts");
 

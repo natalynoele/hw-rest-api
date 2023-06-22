@@ -1,7 +1,4 @@
 const asyncHandler = require("express-async-handler");
-// const jwt = require("jsonwebtoken");
-
-// const { User } = require("../../models");
 
 const { AuthService } = require("../../services");
 
@@ -41,13 +38,11 @@ class AuthController {
   updateAvatar = asyncHandler(async (req, res, next) => {
     const user = await AuthService.updateAvatar(req);
 
-    res
-      .status(200)
-      .json({
-        status: "success",
-        message: "The avatar was successfuly changed",
-        data: user.avatarUrl,
-      });
+    res.status(200).json({
+      status: "success",
+      message: "The avatar was successfuly changed",
+      data: user.avatarUrl,
+    });
   });
 
   getCurrent = asyncHandler(async (req, res, next) => {
