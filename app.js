@@ -11,6 +11,8 @@ const { contactsRouter, authRouter } = require("./routes/api");
 
 const app = express();
 
+app.use(express.static("public"));
+
 app.use(express.urlencoded({ extended: false }));
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";

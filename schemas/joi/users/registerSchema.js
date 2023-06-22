@@ -6,5 +6,4 @@ const registerSchema = Joi.object({
   subscription: Joi.string(),
 });
 
-
-module.exports = registerSchema
+module.exports = registerSchema;

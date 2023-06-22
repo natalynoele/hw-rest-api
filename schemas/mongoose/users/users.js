@@ -1,6 +1,6 @@
 const { Schema } = require("mongoose");
 
-const {subscriptionOptions}= require("../../../constants/users")
+const { subscriptionOptions } = require("../../../constants/users");
 
 const userSchema = new Schema(
   {
@@ -19,9 +19,12 @@ const userSchema = new Schema(
       default: "starter",
     },
     token: String,
+    avatarUrl: {
+      type: String,
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
-
-module.exports = userSchema
+module.exports = userSchema;

@@ -12,7 +12,11 @@ class AuthController {
     return res.status(201).json({
       code: 201,
       message: "success",
-      data: { email: newUser.email, subscription: newUser.subscription },
+      data: {
+        email: newUser.email,
+        subscription: newUser.subscription,
+        avatarUrl: newUser.avatarUrl,
+      },
     });
   });
 
@@ -32,6 +36,18 @@ class AuthController {
     const data = await AuthService.updateSubscription(req);
 
     res.status(200).json(data);
+  });
+
+  updateAvatar = asyncHandler(async (req, res, next) => {
+    const user = await AuthService.updateAvatar(req);
+
+    res
+      .status(200)
+      .json({
+        status: "success",
+        message: "The avatar was successfuly changed",
+        data: user.avatarUrl,
+      });
   });
 
   getCurrent = asyncHandler(async (req, res, next) => {
