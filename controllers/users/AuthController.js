@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 
-const { AuthService } = require("../../services");
+const { AuthService, EmailService } = require("../../services");
 
 class AuthController {
   register = asyncHandler(async (req, res, next) => {
@@ -20,13 +20,13 @@ class AuthController {
   });
 
   verify = asyncHandler(async (req, res, next) => {
-    const message = await AuthService.verify(req);
+    const message = await EmailService.verify(req);
 
     res.status(200).json(message);
   });
 
   resendVerify = asyncHandler(async (req, res, next) => {
-    const message = await AuthService.resendVerify(req);
+    const message = await EmailService.resendVerify(req);
 
     res.status(200).json(message);
   });

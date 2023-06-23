@@ -5,7 +5,6 @@ const { validateBody, authenticate, upload } = require("../../middlewares");
 const { AuthController } = require("../../controllers");
 
 const { userSchemas } = require("../../schemas/joi");
-// const { AuthService } = require("../../services");
 
 const authRouter = express.Router();
 
