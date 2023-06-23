@@ -4,15 +4,16 @@ const fs = require("fs/promises");
 const path = require("path");
 const gravatar = require("gravatar");
 const Jimp = require("jimp");
+const { nanoid } = require("nanoid");
 
 const { User } = require("../models");
-const { HttpError } = require("../helpers");
 const { subscriptionOptions } = require("../constants/users");
+const { HttpError, sendEmail, verifyEmail } = require("../helpers");
 
 const avatarsDir = path.resolve("public", "avatars");
 
 class AuthService {
-  async registerNewUser(req, res) {
+  async registerNewUser(req) {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -26,14 +27,20 @@ class AuthService {
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
-
+    const verificationToken = nanoid();
     const avatarUrl = gravatar.url(email);
 
     const newUser = await User.create({
       ...req.body,
       password: hashPassword,
       avatarUrl,
+      verificationToken,
     });
+
+    const data = verifyEmail(email, newUser.verificationToken);
+    console.log(data);
+
+    await sendEmail(data);
 
     return newUser;
   }
@@ -73,9 +80,15 @@ class AuthService {
     }
 
     const user = await User.findOne({ email });
+
     if (!user) {
       throw HttpError(401);
     }
+
+    if (!user.verify) {
+      throw HttpError(401);
+    }
+
     const passwordCompare = await bcrypt.compare(password, user.password);
     if (!passwordCompare) {
       throw HttpError(401);

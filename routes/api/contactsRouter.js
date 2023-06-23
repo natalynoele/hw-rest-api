@@ -2,7 +2,7 @@ const express = require("express");
 
 const { isValidId, validateBody, authenticate } = require("../../middlewares");
 
-const { contactsCtrl, ContactsController } = require("../../controllers");
+const { ContactsController } = require("../../controllers");
 
 const { addSchema, updateFavoriteSchema } = require("../../schemas/joi");
 
@@ -30,7 +30,6 @@ contactsRouter.patch(
   isValidId,
   validateBody(updateFavoriteSchema),
   ContactsController.updateStatus
-  
 );
 
 contactsRouter.delete("/:id", isValidId, ContactsController.removeById);

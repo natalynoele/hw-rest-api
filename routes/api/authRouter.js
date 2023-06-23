@@ -5,7 +5,6 @@ const { validateBody, authenticate, upload } = require("../../middlewares");
 const { AuthController } = require("../../controllers");
 
 const { userSchemas } = require("../../schemas/joi");
-// const { AuthService } = require("../../services");
 
 const authRouter = express.Router();
 
@@ -13,6 +12,14 @@ authRouter.post(
   "/register",
   validateBody(userSchemas.registerSchema),
   AuthController.register
+);
+
+authRouter.get("/verify/:verificationToken", AuthController.verify);
+
+authRouter.post(
+  "/verify",
+  validateBody(userSchemas.emailSchema),
+  AuthController.resendVerify
 );
 
 authRouter.post(
