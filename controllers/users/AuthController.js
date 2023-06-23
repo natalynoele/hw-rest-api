@@ -1,13 +1,10 @@
 const asyncHandler = require("express-async-handler");
-// const jwt = require("jsonwebtoken");
-
-// const { User } = require("../../models");
 
 const { AuthService } = require("../../services");
 
 class AuthController {
   register = asyncHandler(async (req, res, next) => {
-    const newUser = await AuthService.registerNewUser(req, res);
+    const newUser = await AuthService.registerNewUser(req);
 
     return res.status(201).json({
       code: 201,
@@ -16,8 +13,22 @@ class AuthController {
         email: newUser.email,
         subscription: newUser.subscription,
         avatarUrl: newUser.avatarUrl,
+        verify: newUser.verify,
+        verificationToken: newUser.verificationToken,
       },
     });
+  });
+
+  verify = asyncHandler(async (req, res, next) => {
+    const message = await AuthService.verify(req);
+
+    res.status(200).json(message);
+  });
+
+  resendVerify = asyncHandler(async (req, res, next) => {
+    const message = await AuthService.resendVerify(req);
+
+    res.status(200).json(message);
   });
 
   login = asyncHandler(async (req, res, next) => {
@@ -41,13 +52,11 @@ class AuthController {
   updateAvatar = asyncHandler(async (req, res, next) => {
     const user = await AuthService.updateAvatar(req);
 
-    res
-      .status(200)
-      .json({
-        status: "success",
-        message: "The avatar was successfuly changed",
-        data: user.avatarUrl,
-      });
+    res.status(200).json({
+      status: "success",
+      message: "The avatar was successfuly changed",
+      data: user.avatarUrl,
+    });
   });
 
   getCurrent = asyncHandler(async (req, res, next) => {
